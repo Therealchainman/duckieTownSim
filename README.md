@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 # duckieTownSim
 My first autonomous simulation project.  
-=======
 # selfdriving-sp20
 
 Self Driving Car Decal taught by Machine Learning @ Berkeley, Spring 2020 at UC Berkeley.
@@ -36,4 +34,3 @@ Build towards controlling the car to perform specific tasks by understanding how
 * Write in:
   * car_iface/controller_model.py
   * hw/sysid/hw2_system_id.ipynb
->>>>>>> 98e218f62e36a248d8cef14ba8b444a4663b1d17
