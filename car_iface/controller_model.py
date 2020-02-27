@@ -39,13 +39,12 @@ class Car_Interface():
         All except for the brake_weight should be positive.
         '''
         #Coefficients corresponding to the motion dynamics
-        self.rolling_bias = None
-        self.friction_constant = None
+        self.rolling_bias = 0.010729615827406211
+        self.friction_constant = 0.11226088254440314
 
-        self.accelerator_weight = None
-        self.brake_weight = None
-        raise Exception("You forgot to input SystemID learned weights in the Controller Model")
-
+        self.accelerator_weight = 0.10105324819871363
+        self.brake_weight = -0.24294890202881022
+        
         '''
         If approximating the complex internal model we use a FCN
         to model the acceleration as a function of the pedal depressions
@@ -110,12 +109,19 @@ class Car_Interface():
              c.accel_amt = 0, brake_amt = amount, if pedal is self.BRAKE
             Part B:
              a.Use the absolute value of the current velocity for v.
-
+        
             self.accel should be set to the sum of these components.
             '''
-
-            #CODE HERE (Delete exception too)
-            raise Exception("You forgot to fill Simple Acceleration Calcs in the Controller Model")
+            if pedal == self.ACCELERATOR:
+                accel_amt, brake_amt = amount, 0
+            elif pedal == self.BRAKE:
+                accel_amt, brake_amt = 0, amount
+            else:
+                accel_amt, brake_amt = 0, 0
+            v = abs(self.velocity)
+            self.accel = ((self.accelerator_weight * accel_amt) 
+            + (self.brake_weight * brake_amt) + (-self.friction_constant * v) + self.rolling_bias)
+            print(f"Acceleration is {self.accel}")
 
         elif (self.model == "complex"):
             '''
@@ -169,17 +175,16 @@ class Car_Interface():
         HINT: position update should have a linear term in velocity, and a quadratic
               term in acceleration.
         '''
-        '''
-        UNCOMMENT AND FILL IN (Delete exception too)
 
-        self.position +=
-        self.velocity +=
-        '''
-        raise Exception("You forgot to fill in pos/vel dynamics in the Controller Model")
+        self.position += self.velocity * self.dt + 0.5 * self.accel * self.dt**2
+        self.velocity += self.accel * self.dt
+        print(f"velocity is {self.velocity}")
+
 
         #These ensure that the velocity is never against the current gear setting.
         if (self.gear == self.FORWARD):
             self.velocity = max(self.velocity, 0)
+            print(f"Positive velocity {self.velocity}")
         elif (self.gear == self.REVERSE):
             self.velocity = min(self.velocity, 0)
 
