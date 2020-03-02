@@ -120,7 +120,7 @@ class Car_Interface():
             v = abs(self.velocity)
             self.accel = ((self.accelerator_weight * accel_amt) 
             + (self.brake_weight * brake_amt) + (-self.friction_constant * v) + self.rolling_bias)
-            print(f"Acceleration is {self.accel}")
+            # print(f"Acceleration is {self.accel}")
 
         elif (self.model == "complex"):
             '''
@@ -177,13 +177,13 @@ class Car_Interface():
 
         self.position += self.velocity * self.dt + 0.5 * self.accel * self.dt**2
         self.velocity += self.accel * self.dt
-        print(f"velocity is {self.velocity}")
+        # print(f"velocity is {self.velocity}")
 
 
         #These ensure that the velocity is never against the current gear setting.
         if (self.gear == self.FORWARD):
             self.velocity = max(self.velocity, 0)
-            print(f"Positive velocity {self.velocity}")
+            # print(f"Positive velocity {self.velocity}")
         elif (self.gear == self.REVERSE):
             self.velocity = min(self.velocity, 0)
 
