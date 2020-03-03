@@ -177,7 +177,7 @@ class Car_Interface():
 
         self.position += self.velocity * self.dt + 0.5 * self.accel * self.dt**2
         self.velocity += self.accel * self.dt
-        # print(f"velocity is {self.velocity}")
+        print(f"current position at velocity {self.velocity} and acceleration {self.accel} is {self.position}")
 
 
         #These ensure that the velocity is never against the current gear setting.
