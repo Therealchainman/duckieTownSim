@@ -35,7 +35,7 @@ class Braking_Distance_Estimator():
         self.estimator_type = estimator_type
 
         '''
-        If using a fcn load parameters from Brakind Distance directory
+        If using a fcn load parameters from Braking Distance directory
         two inputs (intitial velocity, stopping distance), output must be between 0 and 1
         '''
         if (estimator_type == "fcn"):
@@ -78,7 +78,7 @@ class Braking_Distance_Estimator():
     '''
     def simple_analytical_sd(self, initial_velocity, amt):
         x = ci.brake_weight*amt + ci.rolling_bias
-        f = -ci.rolling_bias
+        f = ci.friction_constant
         v0 = initial_velocity
         sd = 1/f*(v0 + (x/f)*np.log(1 - (f*v0)/x))
         accel = x + f*v0
@@ -91,17 +91,12 @@ class Braking_Distance_Estimator():
         initial_velocity = inp[0]
         actual_sd = inp[1]
         estimate_sd = simple_analytical_sd(initial_velocity, mid_amt)
-        print(f"The actual and estimate stopping distance {actual_sd} and {estimate_sd}")
         if max_amt - min_amt < 2*tol:
             return mid_amt
-        if abs(estimate_sd - actual_sd) < 2*tol:
-            print(f"if the stimate distance close to actual distance {mid_amt}")
-            return mid_amt
-        elif estimate_sd > actual_sd:
+        elif estimate_sd >= actual_sd:
             min_amt = mid_amt
         elif estimate_sd < actual_sd:
             max_amt = mid_amt
-        print(f"the brake amount that is the (min_amt, mid_amt, max_amt) guess ({min_amt}, {mid_amt}, {max_amt})")
         return simple_analytical_approx(inp, tol, min_amt, max_amt)
 
     #File path to Braking Distance folder
