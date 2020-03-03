@@ -77,8 +77,8 @@ class Braking_Distance_Estimator():
     roughly the desired stopping distance given an initial velocity.
     '''
     def simple_analytical_sd(self, initial_velocity, amt):
-        x = ci.brake_weight*amt + ci.rolling_bias
-        f = ci.friction_constant
+        x = self.brake_weight*amt + self.rolling_bias
+        f = self.friction_constant
         v0 = initial_velocity
         sd = 1/f*(v0 + (x/f)*np.log(1 - (f*v0)/x))
         accel = x + f*v0
@@ -90,14 +90,14 @@ class Braking_Distance_Estimator():
         mid_amt = min_amt + (max_amt - min_amt)/2
         initial_velocity = inp[0]
         actual_sd = inp[1]
-        estimate_sd = simple_analytical_sd(initial_velocity, mid_amt)
+        estimate_sd = self.simple_analytical_sd(initial_velocity, mid_amt)
         if max_amt - min_amt < 2*tol:
             return mid_amt
         elif estimate_sd >= actual_sd:
             min_amt = mid_amt
         elif estimate_sd < actual_sd:
             max_amt = mid_amt
-        return simple_analytical_approx(inp, tol, min_amt, max_amt)
+        return self.simple_analytical_approx(inp, tol, min_amt, max_amt)
 
     #File path to Braking Distance folder
     def bd_fp(self):

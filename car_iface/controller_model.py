@@ -142,10 +142,14 @@ class Car_Interface():
             account for all internal dynamics.
             '''
             model_inp = [0, 0, 0]
-
-            #CODE HERE (Delete exception too)
-            raise Exception("You forgot to fill Complex Input Formulation in the Controller Model")
-
+            if pedal == self.ACCELERATOR:
+                accel_amt, brake_amt = amount, 0
+            elif pedal == self.BRAKE:
+                accel_amt, brake_amt = 0, amount
+            else:
+                accel_amt, brake_amt = 0, 0
+            v = abs(self.velocity)
+            model_inp = [accel_amt, brake_amt, v]
             self.accel = self.complex_accel_fcn.predict([model_inp])
 
 
@@ -220,4 +224,4 @@ class Car_Interface():
     '''
     def complex_weights_fp(self):
         cur_dir = os.path.dirname(__file__)
-        return os.join(cur_fp, "complex_accel")
+        return os.path.join(cur_dir, "complex_accel")

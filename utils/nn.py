@@ -78,12 +78,16 @@ class fcn(nn.Module):
         
         # x will be a matrix of dimension [batch size, num_inputs] (note batch size can vary during usage).
         x = torch.tensor(x, dtype = torch.float32)
+        # print(f"x is matrix: {x}; of dimension {x.shape}")
 
         # first hidden layer computation with tanh activation. [batch size, num_inputs] -> [batch size, H_1]
         h_1 = torch.tanh(torch.matmul(x, self.W_1) + self.B_1)
+        # print(f"h1 is matrix: {h_1}; of dimension {h_1.shape}")
+        # print(f"w1 is a matrix: {self.W_1} of dimension {self.W_1.shape}")
     
         # second hidden layer computation with tanh activation. [batch size, H_1] -> [batch size, H_2]
         h_2 = torch.tanh(torch.matmul(h_1, self.W_2) + self.B_2)
+        # print(f"h2 is matrix: {h_2}; of dimension {h_2.shape}")
         
         #output computation with no activation.  [batch size, H_2] - (MatMul) > [batch size, 1] - (Squeeze) > [batch size]
         out = torch.squeeze(torch.matmul(h_2, self.W_3) + self.B_3)
@@ -118,7 +122,6 @@ class fcn(nn.Module):
         #Converts input data and targets to np arrays for easy indexing
         input_data = np.array(input_data)
         targets = np.array(targets)
-
 
         #Train with all data once num_epochs times.
         for e in range(num_epochs):
