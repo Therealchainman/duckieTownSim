@@ -120,7 +120,6 @@ class Car_Interface():
             v = abs(self.velocity)
             self.accel = ((self.accelerator_weight * accel_amt) 
             + (self.brake_weight * brake_amt) + (-self.friction_constant * v) + self.rolling_bias)
-            # print(f"Acceleration is {self.accel}")
 
         elif (self.model == "complex"):
             '''
